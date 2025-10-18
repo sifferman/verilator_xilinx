@@ -360,6 +360,15 @@ module DSP48E2
                         ? 45'h100000000000
                         : (MREG[0]) ? r_V_p3 : w_V_p2;
 
+    // ============================== Early declaration of nets ==============================
+
+    wire        w_ALUMODE10_p3;
+    reg   [3:0] r_COUT_p4;
+    reg  [47:0] r_ALUOUT_p4;
+    reg   [7:0] r_XOROUT_p4;
+    reg         r_MULTSIGN_p4;
+    reg         r_ALUMODE10_p4;
+
     // ============================== W, X, Y and Z muxes ==============================
     
     reg [47:0] r_W_mux;
@@ -537,14 +546,8 @@ module DSP48E2
     wire  [7:0] w_XOROUT_p3    = (USE_WIDEXOR != "TRUE") ? 8'b0
                                : (XORSIMD == "XOR12") ? w_XORA : w_XORB;
     wire        w_MULTSIGN_p3  = w_sum3[13];
-    wire        w_ALUMODE10_p3 = &w_ALUMODE_mux[1:0];
+    assign      w_ALUMODE10_p3 = &w_ALUMODE_mux[1:0];
 
-    reg   [3:0] r_COUT_p4;
-    reg  [47:0] r_ALUOUT_p4;
-    reg   [7:0] r_XOROUT_p4;
-    reg         r_MULTSIGN_p4;
-    reg         r_ALUMODE10_p4;
-    
     always @(posedge w_CLK) begin : ALU_REG
 
         if (w_RSTP) begin
